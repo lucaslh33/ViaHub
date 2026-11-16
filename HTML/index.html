@@ -2,7 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width='device-width', initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/index.css">
     <title>ExcursãoPro - Viagens</title>
 </head>
 <body>
@@ -23,11 +24,17 @@
                 </div>
                 <div class="campo">
                     <label for="parada">Parada</label>
-                    <input type="text" name="parada" id="parada" required>
+                    <input type="text" name="parada" id="parada" >
                 </div>
+                <div id="paradas_extras"></div>
+                    <button type="button" id="adicionar_parada">+ Adicionar parada</button>
                 <div class="campo">
                     <label for="data_viagem">Data da viagem</label>
                     <input type="datetime-local" name="data_viagem" id="data_viagem" required>
+                </div>
+                <div class="campo">
+                    <label for="termino_viagem">Data e hora de término</label>
+                    <input type="datetime-local" name="termino_viagem" id="termino_viagem" required>
                 </div>
                 <div class="campo">
                     <label for="qtde_poltrona">Quantidade de poltronas</label>
@@ -39,6 +46,17 @@
             </form>
         
         </diaLog>
+
+        <dialog id="modal_detalhes" aria-labelledby="titulo_detalhes">
+            <h2 id="titulo_detalhes"></h2>
+            <p id="saida_detalhes"></p>
+            <p class="frente_onibus">Frente do ônibus</p>
+            <ol id="mapa_poltronas" aria-label="Poltronas do ônibus"></ol>
+
+            <form method="dialog">
+                <button type="submit">Fechar</button>
+            </form>
+        </dialog>
         
         <section class="area_viagens" aria-labelledby="titulo_viagens">
             <h2 id="titulo_viagens"> Viagens disponíveis</h2>

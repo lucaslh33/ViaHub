@@ -1,0 +1,145 @@
+:root{
+    --fundo: #f3f6fb;
+    --texto: #17233a;
+    --texto-secundario: #475569;
+    --borda: #d7e0ed;
+    --azul: #174ec7;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+main{
+    width: min(1100px, 100% - 32px);
+    margin: 32px auto;
+}
+
+.area_viagens{
+    margin-top: 24px;
+}
+
+#lista_viagens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%,260px), 1fr));
+    gap: 16px;
+}
+
+.card_viagem{
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+}
+
+.card_viagem h3,
+.card_viagem p {
+    margin: 0;
+}
+
+.card_viagem p {
+    color:var(--texto-secundario)
+}
+
+button{
+    justify-self: start;
+    padding: 10px 16px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: white;
+    color: var(--azul);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#abrir_modal,
+#form_viagem button[type="submit"]{
+    background: var(--azul);
+    border-color: var(--azul);
+    color: white;
+}
+
+button:hover{
+    filter: brightness(0.94);
+}
+
+button:focus-visible,
+input:focus-visible{
+    outline: 2px solid var(--azul);
+    outline-offset: 3px;
+}
+
+dialog {
+    width: min(480px, 100% - 32px);
+    max-height: calc(100vh - 32px);
+    margin: auto;
+    padding: 24px;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    color: var(--texto);
+    box-shadow: 0 20px 60px rgb(15 23 42 / 20%);
+}
+
+dialog::backdrop {
+    background: rgb(15 23 42 / 55%);
+}
+
+dialog h2 {
+    margin: 0 0 16px;
+}
+
+#form_viagem {
+    display: grid;
+    gap: 14px;
+}
+
+.campo {
+    display: grid;
+    gap: 6px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    font: inherit;
+}
+
+.frente_onibus {
+    text-align: center;
+    font-weight: 600;
+}
+
+#mapa_poltronas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 24px 1fr 1fr;
+    gap: 8px;
+    max-width: 280px;
+    margin: 12px auto 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.poltrona {
+    display: grid;
+    place-items: center;
+    min-height: 42px;
+    border: 1px solid #93b5ef;
+    border-radius: 8px;
+    background: #e8f0ff;
+    color: var(--azul);
+    font-weight: 600;
+}
