@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width='device-width', initial-scale=1.0">
+    <title>ExcursãoPro - Viagens</title>
+</head>
+<body>
+    <main>
+        
+        <button type="button" id="abrir_modal">Adicionar nova viagem</button>
+        <diaLog id="modal_viagem" aria-labelledby="titulo_viagem">
+            <h2 id="titulo_viagem">Nova viagem</h2>
+        
+            <form id="form_viagem">
+                <div class="campo">
+                    <label for="destino">Destino</label>
+                    <input type="text" name="destino" id="destino" required>
+                </div>
+                <div class="campo">
+                    <label for="embarque">Local de embarque</label>
+                    <input type="text" name="embarque" id="embarque" required>
+                </div>
+                <div class="campo">
+                    <label for="parada">Parada</label>
+                    <input type="text" name="parada" id="parada" required>
+                </div>
+                <div class="campo">
+                    <label for="data_viagem">Data da viagem</label>
+                    <input type="datetime-local" name="data_viagem" id="data_viagem" required>
+                </div>
+                <div class="campo">
+                    <label for="qtde_poltrona">Quantidade de poltronas</label>
+                    <input type="number" name="qtde_poltrona" id="qtde_poltrona" min="1" required>
+                </div>
+
+                <button type="submit">Continuar</button>
+
+            </form>
+        
+        </diaLog>
+        
+        <section class="area_viagens" aria-labelledby="titulo_viagens">
+            <h2 id="titulo_viagens"> Viagens disponíveis</h2>
+            <div id="lista_viagens"></div>
+        </section>
+    
+    </main>
+    <script src="../JS/index.js"></script>
+</body>
+</html>
