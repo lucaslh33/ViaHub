@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/cadastro.css">
+    <title>ExcursãoPro - Cadastro</title>
+</head>
+<body>
+    <main>
+        <form class="container" method="post">
+            <h1>Tela de Cadastro</h1>
+            <div class="campo">
+                <label for="nome_usuario">Nome:</label>
+                <input type="text" name="nome_usuario" id="nome_usuario" placeholder="Ex.:Lucas Henrique" required>
+            </div>
+            <div class="campo">
+                <label for="email_usuario">E-mail:</label>
+                <input type="email" name="email_usuario" id="email_usuario" placeholder="Ex.:usuario@teste.com" required>
+            </div>
+            <div class="campo">
+                <label for="senha_usuario">Senha:</label>
+                <input type="password" name="senha_usuario" id="senha_usuario" placeholder="Minímo 8 caracteres" required minlength="8">
+            </div>
+            <div class="campo">
+                <label for="confirmacao_senha">Confirme sua senha:</label>
+                <input type="password" name="confirmacao_senha" id="confirmacao_senha"  required minlength="8">
+            </div>
+            <button type="submit">Cadastrar</button> 
+            <p>Já possui conta? <a href="login.html">Login</a></p>
+
+        </form>
+    </main>
+    <script src="../JS/cadastro.js"></script>
+</body>
+</html>
