@@ -1,8 +1,10 @@
 :root{
-    --fundo: #f3f6fb;
+    --fundo: #f5f1e8;
+    --principal: #17443c;
+    --destaque: #e8ae94;
     --texto: #17233a;
     --texto-secundario: #475569;
-    --borda: #d7e0ed;
+    --borda: #ded8cc;
     --azul: #174ec7;
 }
 
@@ -142,4 +144,170 @@ dialog h2 {
     background: #e8f0ff;
     color: var(--azul);
     font-weight: 600;
+}
+
+.topo_viahub{
+    background: var(--principal);
+    color: white;
+}
+
+.topo_conteudo{
+    width: min(1100px, 100% - 32px);
+    margin: 0 auto;
+    padding: 16px 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.acoes_detalhes {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--borda);
+}
+
+#cancelar_viagem {
+    color: #a12c2c;
+}
+
+.painel_viahub {
+    width: min(680px, calc(100% - 24px));
+    margin: 24px auto;
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+}
+
+.topo_viahub {
+    border-radius: 15px 15px 0 0;
+}
+
+.topo_conteudo {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 16px;
+}
+
+.topo_conteudo h1 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.topo_conteudo #abrir_modal {
+    margin-left: auto;
+    background: white;
+    border-color: white;
+    color: var(--principal);
+    font-size: 0.875rem;
+}
+
+.painel_viahub main {
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+}
+
+.painel_viahub .area_viagens {
+    margin: 0;
+}
+
+#lista_viagens {
+    grid-template-columns: repeat(2, minmax(0, 1fr));;
+}
+
+@media (max-width: 600px) {
+    #lista_viagens {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card_viagem .selo_saida {
+    justify-self: start;
+    padding: 5px 9px;
+    border-radius: 5px;
+    background: var(--destaque);
+    color: var(--texto);
+    font-size: 0.875rem;
+}
+
+.card_viagem button {
+    background: var(--principal);
+    border-color: var(--principal);
+    color: white;
+}
+
+.card_viagem {
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+@media (hover: hover) {
+    .card_viagem:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgb(23 68 60 / 12%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card_viagem {
+        transition: none;
+    }
+
+    .card_viagem:hover {
+        transform: none;
+    }
+}
+
+.card_cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card_cabecalho h3 {
+    font-size: 1.125rem;
+}
+
+.card_preco {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e7efeb;
+    color: var(--principal);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.card_viagem .card_ocupacao {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--fundo);
+    color: var(--texto);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.card_viagem .card_acao {
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    color: var(--principal);
+}
+
+.fileira_fundo {
+    grid-column: 1 / -1;
+}
+
+.poltronas_fundo {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
