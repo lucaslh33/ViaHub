@@ -1,79 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/index.css" />
     <title>ViaHub - Viagens</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="painel_viahub">
-        <header class="topo_viahub">
-            <div class="topo_conteudo">
-                <strong>ViaHub</strong>
-                <h1 id="titulo_viagens">Viagens</h1>
-                <button type="button" id="abrir_modal">Nova viagem</button>
+      <header class="topo_viahub">
+        <div class="topo_conteudo">
+          <strong>ViaHub</strong>
+          <h1 id="titulo_viagens">Viagens</h1>
+          <button type="button" id="abrir_modal">Nova viagem</button>
+        </div>
+      </header>
+      <main>
+        <dialog id="modal_viagem" aria-labelledby="titulo_viagem">
+          <h2 id="titulo_viagem">Nova Viagem</h2>
+          <form id="form_viagem">
+            <div class="campo">
+              <label for="destino">Destino</label>
+              <input type="text" name="destino" id="destino" required />
             </div>
-        </header>
-        <main>
-            
-            <diaLog id="modal_viagem" aria-labelledby="titulo_viagem">
-                
-                <h2 id="titulo_viagem">Nova Viagem</h2>
-                <form id="form_viagem">
-                    <div class="campo">
-                        <label for="destino">Destino</label>
-                        <input type="text" name="destino" id="destino" required>
-                    </div>
-                    <div class="campo">
-                        <label for="embarque">Local de embarque</label>
-                        <input type="text" name="embarque" id="embarque" required>
-                    </div>
-                    <div class="campo">
-                        <label for="parada">Parada</label>
-                        <input type="text" name="parada" id="parada" >
-                    </div>
-                    <div id="paradas_extras"></div>
-                        <button type="button" id="adicionar_parada">+ Adicionar parada</button>
-                    <div class="campo">
-                        <label for="data_viagem">Data da viagem</label>
-                        <input type="datetime-local" name="data_viagem" id="data_viagem" required>
-                    </div>
-                    <div class="campo">
-                        <label for="termino_viagem">Data e hora de término</label>
-                        <input type="datetime-local" name="termino_viagem" id="termino_viagem" required>
-                    </div>
-                    <div class="campo">
-                        <label for="qtde_poltrona">Quantidade de poltronas</label>
-                        <input type="number" name="qtde_poltrona" id="qtde_poltrona" min="1" required>
-                    </div>
-                    <div class="campo">
-                        <label for="preco_viagem">Preço por pessoa (R$)</label>
-                        <input type="number" id="preco_viagem" min="0" step="0.01">
-                    </div>
-                    <button type="submit">Continuar</button>
-                </form>
-        
-            </diaLog>
-            <section id="painel_detalhes" aria-labelledby="titulo_detalhes" hidden>
-                <button type="button" id="voltar_viagens">← Todas as viagens</button>
+            <div class="campo">
+              <label for="embarque">Local de embarque</label>
+              <input type="text" name="embarque" id="embarque" required />
+            </div>
+            <div class="campo">
+              <label for="parada">Parada</label>
+              <input type="text" name="parada" id="parada" />
+            </div>
+            <div id="paradas_extras"></div>
+            <button type="button" id="adicionar_parada">
+              + Adicionar parada
+            </button>
+            <div class="campo">
+              <label for="data_viagem">Data da viagem</label>
+              <input
+                type="datetime-local"
+                name="data_viagem"
+                id="data_viagem"
+                required
+              />
+            </div>
+            <div class="campo">
+              <label for="termino_viagem">Data e hora de término</label>
+              <input
+                type="datetime-local"
+                name="termino_viagem"
+                id="termino_viagem"
+                required
+              />
+            </div>
+            <div class="campo">
+              <label for="qtde_poltrona">Quantidade de poltronas</label>
+              <input
+                type="number"
+                name="qtde_poltrona"
+                id="qtde_poltrona"
+                min="1"
+                required
+              />
+            </div>
+            <div class="campo">
+              <label for="preco_viagem">Preço por pessoa (R$)</label>
+              <input type="number" id="preco_viagem" min="0" step="0.01" />
+            </div>
+            <button type="submit">Continuar</button>
+          </form>
+        </dialog>
+        <section id="painel_detalhes" aria-labelledby="titulo_detalhes" hidden>
+          <button type="button" id="voltar_viagens">← Todas as viagens</button>
 
-                <h2 id="titulo_detalhes"></h2>
-                <p id="saida_detalhes"></p>
+          <header class="bloco_detalhes resumo_viagem">
+            <h2 id="titulo_detalhes"></h2>
+            <p id="saida_detalhes"></p>
+            <p id="embarque_detalhes"></p>
+          </header>
 
-                <h3>Mapa de poltronas</h3>
-                <p class="frente_onibus"> Frente do ônibus</p>
-                <ol id="mapa_poltronas" aria-label="poltronas do ônibus"></ol>
-
-                <button type="button" id="cancelar_viagem">Cancelar viagem</button>
+          <div class="grade_detalhes">
+            <section class="bloco_detalhes">
+              <h3>Mapa de poltronas</h3>
+              <p class="frente_onibus">Frente do ônibus</p>
+              <ol id="mapa_poltronas" aria-label="Poltronas do ônibus"></ol>
             </section>
-        
-            <section id="painel_lista" class="area_viagens" aria-labelledby="titulo_viagens">
-                <div id="lista_viagens"></div>
+
+            <section class="bloco_detalhes">
+              <h3>Passageiros</h3>
+              <p>Os passageiros cadastrados nesta viagem aparecerão aqui.</p>
             </section>
-        
-        </main>
+          </div>
+          <dialog id="modal_reserva" aria-labelledby="titulo_reserva">
+            <h2 id="titulo_reserva"></h2>
+
+            <form id="form_reserva">
+              <label class="campo">
+                Nome do passageiro
+                <input type="text" name="nome" required />
+              </label>
+
+              <label class="campo">
+                WhatsApp
+                <input type="tel" name="telefone" required />
+              </label>
+
+            </form>
+
+            <form method="dialog" class="acoes_reserva">
+              <button type="submit">Voltar ao mapa</button>
+              <button type="submit" form="form_reserva">Salvar reserva</button>
+            </form>
+          </dialog>
+          <button type="button" id="cancelar_viagem">Cancelar viagem</button>
+        </section>
+
+        <section
+          id="painel_lista"
+          class="area_viagens"
+          aria-labelledby="titulo_viagens"
+        >
+          <div id="lista_viagens"></div>
+        </section>
+      </main>
     </div>
     <script src="../JS/index.js"></script>
-</body>
+  </body>
 </html>

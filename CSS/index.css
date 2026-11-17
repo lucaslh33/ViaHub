@@ -299,15 +299,83 @@ dialog h2 {
     color: var(--principal);
 }
 
-.fileira_fundo {
-    grid-column: 1 / -1;
+.bloco_detalhes {
+    min-width: 0;
+    padding: 16px;
+    background: white;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
 }
 
-.poltronas_fundo {
+.bloco_detalhes h2,
+.bloco_detalhes h3 {
+    margin: 0 0 8px;
+}
+
+.resumo_viagem,
+.grade_detalhes {
+    margin: 12px 0;
+}
+
+.grade_detalhes {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 12px;
+    align-items: start;
+}
+
+@media (max-width: 600px) {
+    .grade_detalhes {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card_rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 8px;
-    margin: 0;
+}
+
+button.poltrona {
+    width: 100%;
     padding: 0;
-    list-style: none;
+    
+}
+
+button.poltrona:disabled {
+    background: #eef0f2;
+    border-color: #d7dce1;
+    color: #526173;
+    cursor: default;
+}
+
+#form_reserva {
+    display: grid;
+    gap: 14px;
+}
+
+#form_reserva > button[type="submit"] {
+    background: var(--principal);
+    border-color: var(--principal);
+    color: white;
+}
+
+#modal_reserva form[method="dialog"] {
+    margin-top: 10px;
+}
+
+.acoes_reserva {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.acoes_reserva button[form="form_reserva"] {
+    background: var(--principal);
+    border-color: var(--principal);
+    color: white;
 }
