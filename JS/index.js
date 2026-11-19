@@ -31,11 +31,7 @@ const formReserva = document.getElementById("form_reserva");
 let poltronaSelecionada = null;
 let viagemEmEdicao = null;
 
-let viagens = JSON.parse(localStorage.getItem("viahub_viagens") ?? "[]");
-
-function salvarViagens() {
-  localStorage.setItem("viahub_viagens", JSON.stringify(viagens));
-}
+let viagens = armazenamentoViagens.carregar();
 
 botaoAbrir.addEventListener("click", () => abrirFormularioViagem());
 botaoEditarViagem.addEventListener("click", () => abrirFormularioViagem(viagemAberta));
@@ -104,15 +100,9 @@ function cadastrarViagem(evento) {
     status: "agendada",
   };
 
-  const terminoEm = Date.parse(viagem.termino);
-
-  if (terminoEm <= Date.parse(viagem.saida)) {
-    alert("o término da viagem deve ser depois da saída.");
-    return;
-  }
-
-  if (terminoEm <= Date.now()) {
-    alert("O término da viagem deve estar no futuro.");
+  const erroDatas = regrasViagem.validarDatas(viagem);
+  if (erroDatas) {
+    alert(erroDatas);
     return;
   }
 
@@ -124,7 +114,7 @@ function cadastrarViagem(evento) {
       return;
     }
 
-    if (reservasAtivas(viagemEmEdicao).some((reserva) => reserva.poltrona > viagem.vagas)) {
+    if (!regrasViagem.comportaReservas(viagemEmEdicao, viagem.vagas)) {
       alert("A quantidade de poltronas precisa incluir todas as poltronas reservadas.");
       return;
     }
@@ -135,7 +125,7 @@ function cadastrarViagem(evento) {
     viagens.push(viagem);
   }
 
-  salvarViagens();
+  armazenamentoViagens.salvar(viagens);
   mostrarViagens();
   modalViagem.close();
 }
@@ -191,7 +181,7 @@ function mostrarViagens() {
     const horaCard = document.createElement("p");
     horaCard.textContent = `Saída às ${hora}`;
 
-    const reservadas = reservasAtivas(viagem).length;
+    const reservadas = regrasViagem.reservasAtivas(viagem).length;
     const vagasCard = document.createElement("div");
     vagasCard.className = "card_ocupacao";
 
@@ -255,7 +245,7 @@ botaoCancelarViagem.addEventListener("click", () => {
   if (!confirmou) return;
 
   viagens = viagens.filter((viagem) => viagem !== viagemAberta);
-  salvarViagens();
+  armazenamentoViagens.salvar(viagens);
 
   voltarParaViagens();
 });
@@ -277,10 +267,6 @@ function formatarNumeroPoltrona(numero) {
   return String(numero).padStart(2, "0");
 }
 
-function reservasAtivas(viagem) {
-  return (viagem.reservas ?? []).filter((reserva) => !reserva.canceladaEm);
-}
-
 function mostrarPainelDaViagem() {
   const { destino, saida, embarque, preco, vagas } = viagemAberta;
   const { data, hora } = formatarDataSaida(saida);
@@ -292,18 +278,16 @@ function mostrarPainelDaViagem() {
   if (!precoDetalhes.hidden) precoDetalhes.textContent = `${formatarPreco(preco)} por passageiro`;
   embarqueDetalhes.textContent = `Embarque: ${embarque}`;
 
-  const ativas = reservasAtivas(viagemAberta);
-  const confirmadas = ativas.filter((reserva) => reserva.pagamentoConfirmadoEm).length;
-  const ocupacao = Math.round((ativas.length / vagas) * 100);
+  const { ativas, disponiveis, pendentes, confirmadas, percentual } = regrasViagem.ocupacao(viagemAberta);
 
   document.getElementById("total_reservas").textContent = ativas.length;
-  document.getElementById("total_disponiveis").textContent = vagas - ativas.length;
-  document.getElementById("total_pendentes").textContent = ativas.length - confirmadas;
+  document.getElementById("total_disponiveis").textContent = disponiveis;
+  document.getElementById("total_pendentes").textContent = pendentes;
   document.getElementById("total_confirmados").textContent = confirmadas;
   document.getElementById("total_lugares").textContent = vagas === 1 ? "1 lugar" : `${vagas} lugares`;
   document.getElementById("total_passageiros").textContent = ativas.length === 1 ? "1 ativo" : `${ativas.length} ativos`;
   document.getElementById("ocupacao_detalhes").textContent = `${ativas.length} de ${vagas} ${vagas === 1 ? "vaga ocupada" : "vagas ocupadas"}`;
-  document.getElementById("percentual_ocupacao").textContent = `${ocupacao}% do ônibus`;
+  document.getElementById("percentual_ocupacao").textContent = `${percentual}% do ônibus`;
   barraOcupacaoDetalhes.max = vagas;
   barraOcupacaoDetalhes.value = ativas.length;
 
@@ -380,7 +364,7 @@ function mostrarPassageiros() {
       situacao.classList.add("pagamento_pendente");
       situacao.textContent = "Pendente";
       acoes.append(criarAcaoReserva("Confirmar pagamento", () => {
-        atualizarReserva(reserva, "pagamentoConfirmadoEm");
+        atualizarReserva(reserva, regrasViagem.confirmarPagamento);
       }));
     }
     acoes.prepend(situacao);
@@ -388,7 +372,7 @@ function mostrarPassageiros() {
     if (!reserva.canceladaEm) {
       const cancelar = criarAcaoReserva("×", () => {
         if (confirm(`Cancelar a reserva de ${reserva.nome} na poltrona ${reserva.poltrona}?`)) {
-          atualizarReserva(reserva, "canceladaEm");
+          atualizarReserva(reserva, regrasViagem.cancelarReserva);
         }
       });
       cancelar.setAttribute("aria-label", `Cancelar reserva de ${reserva.nome}`);
@@ -408,14 +392,15 @@ function criarAcaoReserva(texto, acao) {
   return botao;
 }
 
-function atualizarReserva(reserva, campo) {
+function atualizarReserva(reserva, acao) {
   if (!viagens.includes(viagemAberta)) {
     voltarParaViagens();
     return;
   }
 
-  reserva[campo] = new Date().toISOString();
-  salvarViagens();
+  if (!acao(reserva)) return;
+
+  armazenamentoViagens.salvar(viagens);
   mostrarPainelDaViagem();
   buscaPassageiro.focus();
 }
@@ -471,54 +456,38 @@ function mostrarPoltronas(quantidade, reservas) {
   }
 }
 
-formReserva.addEventListener("submit", evento => {
-    evento.preventDefault();
+formReserva.addEventListener("submit", (evento) => {
+  evento.preventDefault();
 
-    if (!viagens.includes(viagemAberta) || poltronaSelecionada === null) {
-        alert("Abra uma viagem e selecione uma poltrona.");
-        return;
-    }
+  if (!viagens.includes(viagemAberta) || poltronaSelecionada === null) {
+    alert("Abra uma viagem e selecione uma poltrona.");
+    return;
+  }
 
-    const dados = new FormData(formReserva);
-    const nome = dados.get("nome").trim();
-    const telefone = dados.get("telefone").trim();
+  const dados = new FormData(formReserva);
+  const erroReserva = regrasViagem.reservarPoltrona(viagemAberta, poltronaSelecionada, {
+    nome: dados.get("nome"),
+    telefone: dados.get("telefone"),
+  });
 
-    if (!nome || !telefone) {
-        alert("Preencha o nome e o WhatsApp.");
-        return;
-    }
+  if (erroReserva) {
+    alert(erroReserva);
+    return;
+  }
 
-    viagemAberta.reservas ??= [];
-
-    if (reservasAtivas(viagemAberta).some(reserva => reserva.poltrona === poltronaSelecionada)) {
-        alert("Essa poltrona já está ocupada.");
-        return;
-    }
-
-    viagemAberta.reservas.push({
-        poltrona: poltronaSelecionada,
-        nome,
-        telefone
-    });
-
-    salvarViagens();
-    modalReserva.close();
-    poltronaSelecionada = null;
-    mostrarPainelDaViagem();
+  armazenamentoViagens.salvar(viagens);
+  modalReserva.close();
+  poltronaSelecionada = null;
+  mostrarPainelDaViagem();
 });
 
 function removerViagensEncerradas() {
-  const agora = Date.now();
-
-  const restantes = viagens.filter((viagem) => {
-    const terminoEm = Date.parse(viagem.termino);
-    return !Number.isFinite(terminoEm) || terminoEm > agora;
-  });
+  const restantes = regrasViagem.viagensNaoEncerradas(viagens);
 
   if (restantes.length === viagens.length) return false;
 
   viagens = restantes;
-  salvarViagens();
+  armazenamentoViagens.salvar(viagens);
   return true;
 }
 
