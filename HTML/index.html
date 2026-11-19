@@ -67,28 +67,85 @@
               <label for="preco_viagem">Preço por pessoa (R$)</label>
               <input type="number" id="preco_viagem" min="0" step="0.01" />
             </div>
-            <button type="submit">Continuar</button>
+            <div class="acoes_reserva">
+              <button type="button" id="fechar_modal_viagem">Voltar</button>
+              <button type="submit" id="salvar_viagem">Continuar</button>
+            </div>
           </form>
         </dialog>
         <section id="painel_detalhes" aria-labelledby="titulo_detalhes" hidden>
           <button type="button" id="voltar_viagens">← Todas as viagens</button>
 
           <header class="bloco_detalhes resumo_viagem">
-            <h2 id="titulo_detalhes"></h2>
-            <p id="saida_detalhes"></p>
+            <div class="cabecalho_detalhes">
+              <h2 id="titulo_detalhes"></h2>
+              <button type="button" id="editar_viagem">Editar viagem</button>
+            </div>
+            <div class="dados_viagem">
+              <p id="data_detalhes"></p>
+              <p id="saida_detalhes"></p>
+              <p id="preco_detalhes" hidden></p>
+            </div>
             <p id="embarque_detalhes"></p>
           </header>
 
+          <dl class="indicadores_viagem">
+            <div class="bloco_detalhes">
+              <dt>Reservas ativas</dt>
+              <dd id="total_reservas">0</dd>
+            </div>
+            <div class="bloco_detalhes">
+              <dt>Poltronas disponíveis</dt>
+              <dd id="total_disponiveis">0</dd>
+            </div>
+            <div class="bloco_detalhes">
+              <dt>Pagamentos pendentes</dt>
+              <dd id="total_pendentes">0</dd>
+            </div>
+            <div class="bloco_detalhes">
+              <dt>Pagamentos confirmados</dt>
+              <dd id="total_confirmados">0</dd>
+            </div>
+          </dl>
+
+          <div class="bloco_detalhes painel_ocupacao">
+            <div class="cabecalho_detalhes">
+              <strong id="ocupacao_detalhes" role="status"></strong>
+              <span id="percentual_ocupacao"></span>
+            </div>
+            <meter id="barra_ocupacao" aria-label="Ocupação do ônibus"></meter>
+          </div>
+
           <div class="grade_detalhes">
-            <section class="bloco_detalhes">
-              <h3>Mapa de poltronas</h3>
-              <p class="frente_onibus">Frente do ônibus</p>
-              <ol id="mapa_poltronas" aria-label="Poltronas do ônibus"></ol>
+            <section class="bloco_detalhes" aria-labelledby="titulo_mapa">
+              <div class="cabecalho_detalhes">
+                <h3 id="titulo_mapa">Mapa de poltronas</h3>
+                <span id="total_lugares"></span>
+              </div>
+              <div class="onibus">
+                <p class="frente_onibus">Frente do ônibus</p>
+                <ol id="mapa_poltronas" aria-label="Poltronas do ônibus"></ol>
+              </div>
+              <div class="legenda_poltronas">
+                <span>Livre</span>
+                <span class="legenda_ocupada">Ocupada</span>
+              </div>
             </section>
 
-            <section class="bloco_detalhes">
-              <h3>Passageiros</h3>
-              <p>Os passageiros cadastrados nesta viagem aparecerão aqui.</p>
+            <section class="bloco_detalhes" aria-labelledby="titulo_passageiros">
+              <div class="cabecalho_detalhes">
+                <h3 id="titulo_passageiros">Passageiros</h3>
+                <span id="total_passageiros" class="selo_detalhes"></span>
+              </div>
+              <input type="search" id="buscar_passageiro" aria-label="Buscar por nome ou poltrona" placeholder="Buscar por nome ou poltrona" />
+              <div class="filtros_passageiros" id="filtros_passageiros" role="group" aria-label="Filtrar reservas">
+                <button type="button" data-filtro="ativas" aria-pressed="true">Ativas</button>
+                <button type="button" data-filtro="pendentes" aria-pressed="false">Pendentes</button>
+                <button type="button" data-filtro="confirmados" aria-pressed="false">Confirmados</button>
+                <button type="button" data-filtro="canceladas" aria-pressed="false">Canceladas</button>
+              </div>
+              <p id="passageiros_vazio" class="passageiros_vazio" role="status" hidden></p>
+              <ul id="lista_passageiros" aria-label="Reservas da viagem"></ul>
             </section>
           </div>
           <dialog id="modal_reserva" aria-labelledby="titulo_reserva">
@@ -112,12 +169,13 @@
               <button type="submit" form="form_reserva">Salvar reserva</button>
             </form>
           </dialog>
-          <button type="button" id="cancelar_viagem">Cancelar viagem</button>
+          <div class="acoes_detalhes">
+            <button type="button" id="cancelar_viagem">Cancelar viagem</button>
+          </div>
         </section>
 
         <section
           id="painel_lista"
-          class="area_viagens"
           aria-labelledby="titulo_viagens"
         >
           <div id="lista_viagens"></div>
