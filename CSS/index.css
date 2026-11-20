@@ -1,0 +1,642 @@
+:root{
+    --fundo: #f5f1e8;
+    --principal: #17443c;
+    --destaque: #e8ae94;
+    --texto: #17233a;
+    --texto-secundario: #475569;
+    --borda: #ded8cc;
+    --azul: #174ec7;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+#lista_viagens {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.card_viagem{
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.card_viagem h3,
+.card_viagem p {
+    margin: 0;
+}
+
+.card_viagem p {
+    color:var(--texto-secundario)
+}
+
+button{
+    justify-self: start;
+    padding: 10px 16px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: white;
+    color: var(--azul);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#form_viagem button[type="submit"]{
+    background: var(--azul);
+    border-color: var(--azul);
+    color: white;
+}
+
+button:hover{
+    filter: brightness(0.94);
+}
+
+button:focus-visible,
+input:focus-visible{
+    outline: 2px solid var(--azul);
+    outline-offset: 3px;
+}
+
+dialog {
+    width: min(480px, 100% - 32px);
+    max-height: calc(100vh - 32px);
+    margin: auto;
+    padding: 24px;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    color: var(--texto);
+    box-shadow: 0 20px 60px rgb(15 23 42 / 20%);
+}
+
+dialog::backdrop {
+    background: rgb(15 23 42 / 55%);
+}
+
+dialog h2 {
+    margin: 0 0 16px;
+}
+
+#form_viagem {
+    display: grid;
+    gap: 14px;
+}
+
+.campo {
+    display: grid;
+    gap: 6px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    font: inherit;
+}
+
+.frente_onibus {
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px solid var(--borda_detalhes);
+    border-radius: 8px;
+    background: white;
+    color: var(--azul);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+#mapa_poltronas,
+.poltronas_fundo {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#mapa_poltronas {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) 10px repeat(2, minmax(0, 1fr));
+    margin-top: 8px;
+}
+
+.fileira_fundo {
+    grid-column: 1 / -1;
+}
+
+.poltronas_fundo {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+button.poltrona {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 42px;
+    padding: 0;
+    border-color: var(--livre_borda);
+    background: var(--livre_fundo);
+    font-size: 0.8125rem;
+}
+
+#cancelar_viagem {
+    color: #a12c2c;
+}
+
+.painel_viahub {
+    width: calc(100% - 24px);
+    margin: 24px auto;
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+}
+
+.topo_viahub {
+    border-radius: 15px 15px 0 0;
+    background: var(--principal);
+    color: white;
+}
+
+.topo_conteudo {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 14px 16px;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.topo_conteudo h1 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.topo_conteudo #abrir_modal {
+    margin-left: auto;
+    background: white;
+    border-color: white;
+    color: var(--principal);
+    font-size: 0.875rem;
+}
+
+.painel_viahub main {
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+}
+
+@media (max-width: 600px) {
+    #lista_viagens {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card_viagem .selo_saida {
+    justify-self: start;
+    padding: 5px 9px;
+    border-radius: 5px;
+    background: var(--destaque);
+    color: var(--texto);
+    font-size: 0.875rem;
+}
+
+@media (hover: hover) {
+    .card_viagem:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgb(23 68 60 / 12%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card_viagem {
+        transition: none;
+    }
+
+    .card_viagem:hover {
+        transform: none;
+    }
+}
+
+.card_cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card_cabecalho h3 {
+    font-size: 1.125rem;
+}
+
+.card_preco {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e7efeb;
+    color: var(--principal);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.card_viagem .card_ocupacao {
+    display: grid;
+    gap: 6px;
+    color: var(--texto-secundario);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+:is(.card_ocupacao, .painel_ocupacao) meter {
+    --trilho_ocupacao: var(--borda);
+    --preenchimento_ocupacao: var(--principal);
+    appearance: none;
+    display: block;
+    width: min(100%, 240px);
+    height: 8px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--trilho_ocupacao);
+}
+
+:is(.card_ocupacao, .painel_ocupacao) meter::-webkit-meter-bar {
+    border: 0;
+    border-radius: inherit;
+    background: var(--trilho_ocupacao);
+}
+
+:is(.card_ocupacao, .painel_ocupacao) meter::-webkit-meter-optimum-value {
+    border-radius: 999px;
+    background: var(--preenchimento_ocupacao);
+}
+
+:is(.card_ocupacao, .painel_ocupacao) meter::-moz-meter-bar {
+    border-radius: 999px;
+    background: var(--preenchimento_ocupacao);
+}
+
+.card_viagem .card_acao {
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    color: var(--principal);
+}
+
+body:has(#painel_detalhes:not([hidden])),
+.painel_viahub:has(#painel_detalhes:not([hidden])) {
+    background: #f5f7fa;
+}
+
+#painel_detalhes {
+    --borda_detalhes: #d7e1ed;
+    --azul_detalhes: #095edb;
+    --livre_fundo: #eef6ff;
+    --livre_borda: #a4c9fa;
+    --ocupada_fundo: #eef2f6;
+    max-width: 1180px;
+    margin-inline: auto;
+}
+
+.bloco_detalhes {
+    min-width: 0;
+    padding: 16px;
+    background: white;
+    border: 1px solid var(--borda_detalhes);
+    border-radius: 12px;
+}
+
+#voltar_viagens {
+    padding: 6px 0;
+    border: 0;
+    background: transparent;
+    color: var(--texto-secundario);
+    font-size: 0.875rem;
+}
+
+.cabecalho_detalhes,
+.dados_viagem {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+}
+
+.cabecalho_detalhes {
+    justify-content: space-between;
+}
+
+.bloco_detalhes h2,
+.bloco_detalhes h3,
+.resumo_viagem p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.bloco_detalhes h2 {
+    font-size: clamp(1.375rem, 3vw, 2rem);
+    letter-spacing: -0.025em;
+}
+
+.bloco_detalhes h3 {
+    font-size: 0.975rem;
+}
+
+.resumo_viagem {
+    display: grid;
+    gap: 8px;
+}
+
+.resumo_viagem p,
+#total_lugares {
+    font-size: 0.875rem;
+    color: var(--texto-secundario);
+}
+
+#editar_viagem {
+    padding: 7px 12px;
+    border-color: var(--borda_detalhes);
+    color: var(--texto);
+    font-size: 0.875rem;
+}
+
+.resumo_viagem,
+.indicadores_viagem,
+.grade_detalhes {
+    margin: 12px 0;
+}
+
+.indicadores_viagem {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.indicadores_viagem > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.indicadores_viagem dt {
+    color: var(--texto-secundario);
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+}
+
+.indicadores_viagem dd {
+    order: -1;
+    margin: 0;
+    color: var(--azul);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+#total_pendentes {
+    color: #8d4b0d;
+}
+
+#total_confirmados {
+    color: #16654a;
+}
+
+.painel_ocupacao {
+    display: grid;
+    gap: 8px;
+    font-size: 0.875rem;
+}
+
+.painel_ocupacao meter {
+    --trilho_ocupacao: #dcebff;
+    --preenchimento_ocupacao: var(--azul_detalhes);
+    width: 100%;
+}
+
+#percentual_ocupacao {
+    color: var(--azul);
+    font-weight: 600;
+}
+
+.grade_detalhes {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3.4fr);
+    gap: 12px;
+}
+
+.onibus {
+    max-width: 320px;
+    margin: 12px auto 0;
+    padding: 10px;
+    border: 1px solid var(--borda_detalhes);
+    border-radius: 14px;
+    background: #f6f9fc;
+}
+
+.legenda_poltronas {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 12px;
+    color: var(--texto-secundario);
+    font-size: 0.75rem;
+}
+
+.legenda_poltronas span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legenda_poltronas span::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--livre_borda);
+    border-radius: 3px;
+    background: var(--livre_fundo);
+}
+
+.legenda_poltronas .legenda_ocupada::before {
+    border-color: var(--borda_detalhes);
+    background: var(--ocupada_fundo);
+}
+
+#buscar_passageiro {
+    width: 100%;
+    margin: 12px 0 8px;
+    padding: 8px 10px;
+    border: 1px solid var(--borda_detalhes);
+    border-radius: 8px;
+    color: var(--texto);
+    font: inherit;
+}
+
+.filtros_passageiros,
+.acoes_passageiro {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.filtros_passageiros button,
+.selo_detalhes {
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: #eef2f6;
+    color: var(--texto-secundario);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.filtros_passageiros button[aria-pressed="true"] {
+    background: var(--azul_detalhes);
+    color: white;
+}
+
+#lista_passageiros {
+    display: grid;
+    gap: 6px;
+    max-height: 530px;
+    overflow-y: auto;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.passageiro {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--borda_detalhes);
+    border-radius: 8px;
+    font-size: 0.875rem;
+}
+
+.numero_passageiro {
+    padding: 6px;
+    border-radius: 6px;
+    background: #edf2f8;
+    font-size: 0.8125rem;
+    font-weight: 700;
+}
+
+.dados_passageiro {
+    display: grid;
+    gap: 2px;
+    overflow-wrap: anywhere;
+}
+
+.dados_passageiro span,
+.passageiros_vazio {
+    color: var(--texto-secundario);
+    font-size: 0.875rem;
+}
+
+.selo_detalhes.pagamento_pendente {
+    background: #fff3df;
+    color: #8d4b0d;
+}
+
+.selo_detalhes.pagamento_confirmado {
+    background: #e5f6ee;
+    color: #16654a;
+}
+
+.acoes_passageiro button {
+    padding: 4px 6px;
+    border-color: var(--borda_detalhes);
+    font-size: 0.75rem;
+}
+
+.acoes_passageiro button[aria-label] {
+    border-color: transparent;
+    color: #a12c2c;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.acoes_detalhes {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media (max-width: 780px) {
+    .grade_detalhes {
+        grid-template-columns: 1fr;
+    }
+
+    .indicadores_viagem {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .passageiro {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .acoes_passageiro {
+        grid-column: 2;
+    }
+}
+
+.card_rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+button.poltrona:disabled {
+    background: var(--ocupada_fundo);
+    border-color: var(--borda_detalhes);
+    color: #526173;
+    cursor: default;
+}
+
+#form_reserva {
+    display: grid;
+    gap: 14px;
+}
+
+#modal_reserva form[method="dialog"] {
+    margin-top: 10px;
+}
+
+.acoes_reserva {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.acoes_reserva button[form="form_reserva"] {
+    background: var(--principal);
+    border-color: var(--principal);
+    color: white;
+}
