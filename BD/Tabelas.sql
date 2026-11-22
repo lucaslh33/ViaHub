@@ -1,6 +1,8 @@
 CREATE DATABASE viahub_db
+GO
 
 USE viahub_db
+GO
 
 CREATE TABLE tblorganizador(
 id_organizador INT PRIMARY KEY IDENTITY(1,1),

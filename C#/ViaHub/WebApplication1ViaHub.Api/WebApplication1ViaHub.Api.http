@@ -1,0 +1,6 @@
+@WebApplication1ViaHub.Api_HostAddress = http://localhost:5296
+
+GET {{WebApplication1ViaHub.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
